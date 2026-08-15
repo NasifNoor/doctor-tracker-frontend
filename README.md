@@ -578,7 +578,7 @@ This frontend communicates with the separate Doctor Tracker backend.
 Replace this placeholder with the actual backend repository URL:
 
 ```text
-<YOUR_BACKEND_REPOSITORY_URL>
+https://github.com/NasifNoor/doctor-tracker-backend.git
 ```
 
 The backend provides:
