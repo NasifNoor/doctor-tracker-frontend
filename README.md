@@ -142,7 +142,7 @@ The backend must be available before testing authenticated API functionality.
 ### 1. Clone the repository
 
 ```bash
-git clone <YOUR_FRONTEND_REPOSITORY_URL>
+git clone https://github.com/NasifNoor/doctor-tracker-frontend.git
 cd doctor-tracker-frontend
 ```
 
@@ -206,13 +206,13 @@ npm start
 
 # Application Routes
 
-| Route | Purpose |
-|---|---|
-| `/login` | Admin login |
-| `/dashboard` | Admin dashboard |
-| `/doctors` | Doctor management |
-| `/doctors/:id` | Specific doctor and assigned patients |
-| `/patients` | Patient search, filtering and pagination |
+| Route          | Purpose                                  |
+| -------------- | ---------------------------------------- |
+| `/login`       | Admin login                              |
+| `/dashboard`   | Admin dashboard                          |
+| `/doctors`     | Doctor management                        |
+| `/doctors/:id` | Specific doctor and assigned patients    |
+| `/patients`    | Patient search, filtering and pagination |
 
 ---
 
@@ -240,7 +240,7 @@ The frontend does not store the JWT in `localStorage`.
 For authenticated API requests, the frontend sends cookies using:
 
 ```js
-credentials: "include"
+credentials: "include";
 ```
 
 ## Route Protection
@@ -290,24 +290,24 @@ lib/api.js
 Instead of writing independent `fetch()` calls throughout the application, pages use shared methods such as:
 
 ```js
-api.login()
-api.logout()
-api.getMe()
+api.login();
+api.logout();
+api.getMe();
 
-api.getDoctors()
-api.getDoctor()
-api.createDoctor()
-api.updateDoctor()
-api.deleteDoctor()
+api.getDoctors();
+api.getDoctor();
+api.createDoctor();
+api.updateDoctor();
+api.deleteDoctor();
 
-api.getDoctorPatients()
-api.addDoctorPatient()
-api.deleteDoctorPatient()
+api.getDoctorPatients();
+api.addDoctorPatient();
+api.deleteDoctorPatient();
 
-api.getPatients()
-api.getPatient()
-api.updatePatient()
-api.deletePatient()
+api.getPatients();
+api.getPatient();
+api.updatePatient();
+api.deletePatient();
 ```
 
 This keeps API communication consistent and makes the frontend easier to maintain.
@@ -515,7 +515,7 @@ Instead, the backend issues a JWT through an HTTP-only cookie.
 Authenticated requests use:
 
 ```js
-credentials: "include"
+credentials: "include";
 ```
 
 This keeps the authentication token inaccessible to normal client-side JavaScript and lets the backend remain responsible for authentication validation.
@@ -524,8 +524,8 @@ This keeps the authentication token inaccessible to normal client-side JavaScrip
 
 # Environment Variables
 
-| Variable | Description | Example |
-|---|---|---|
+| Variable              | Description          | Example                     |
+| --------------------- | -------------------- | --------------------------- |
 | `NEXT_PUBLIC_API_URL` | Backend API base URL | `http://localhost:5000/api` |
 
 ---
