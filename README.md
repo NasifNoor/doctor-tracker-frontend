@@ -301,8 +301,6 @@ api.updateDoctor();
 api.deleteDoctor();
 
 api.getDoctorPatients();
-api.addDoctorPatient();
-api.deleteDoctorPatient();
 
 api.getPatients();
 api.getPatient();
@@ -348,16 +346,6 @@ Add Patient
        +
 Remove Patient
 ```
-
-When a patient is added from a doctor's page, the doctor is determined from the URL:
-
-```text
-POST /api/doctors/:doctorId/patients
-```
-
-The user does not need to select the doctor again.
-
----
 
 # Patient Workflow
 
@@ -461,11 +449,6 @@ components/
 │   └── PatientForm.js
 │
 └── ui/
-    ├── Button.js
-    ├── Input.js
-    ├── Modal.js
-    ├── Pagination.js
-    └── PageSkeleton.js
 ```
 
 The exact component list can evolve as the UI is finalized.
@@ -540,34 +523,6 @@ npm run build
 npm start
 npm run lint
 ```
-
----
-
-# Screenshots
-
-Add final screenshots before submission.
-
-## Desktop
-
-```text
-screenshots/
-├── dashboard-desktop.png
-├── doctors-desktop.png
-├── doctor-details-desktop.png
-└── patients-desktop.png
-```
-
-## Mobile
-
-```text
-screenshots/
-├── dashboard-mobile.png
-├── doctors-mobile.png
-├── doctor-details-mobile.png
-└── patients-mobile.png
-```
-
-Screenshots should demonstrate both desktop and mobile responsive layouts.
 
 ---
 
