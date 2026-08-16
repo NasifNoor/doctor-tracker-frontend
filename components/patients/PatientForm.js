@@ -18,6 +18,7 @@ const getInitialForm = (patient) => ({
 export default function PatientForm({
   patient,
   doctors,
+  showDoctor = true,
   loading,
   onSubmit,
   onCancel,
@@ -44,34 +45,34 @@ export default function PatientForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
-      {/* Doctor */}
-      <div>
-        <label
-          htmlFor="doctorId"
-          className="mb-2 block text-sm font-medium text-gray-700"
-        >
-          Doctor
-        </label>
+      {showDoctor && (
+        <div>
+          <label
+            htmlFor="doctorId"
+            className="mb-2 block text-sm font-medium text-gray-700"
+          >
+            Doctor
+          </label>
 
-        <select
-          id="doctorId"
-          name="doctorId"
-          value={form.doctorId}
-          onChange={handleChange}
-          required
-          className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-gray-900 outline-none focus:border-blue-500"
-        >
-          <option value="">Select doctor</option>
+          <select
+            id="doctorId"
+            name="doctorId"
+            value={form.doctorId}
+            onChange={handleChange}
+            disabled
+            className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-gray-900 outline-none focus:border-blue-500"
+          >
+            <option value="">Select doctor</option>
 
-          {doctors.map((doctor) => (
-            <option key={doctor._id} value={doctor._id}>
-              {doctor.name} — {doctor.specialization}
-            </option>
-          ))}
-        </select>
-      </div>
+            {doctors.map((doctor) => (
+              <option key={doctor._id} value={doctor._id}>
+                {doctor.name} — {doctor.specialization}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
 
-      {/* Name */}
       <div>
         <label
           htmlFor="name"
@@ -91,7 +92,6 @@ export default function PatientForm({
         />
       </div>
 
-      {/* Age */}
       <div>
         <label
           htmlFor="age"
@@ -112,7 +112,6 @@ export default function PatientForm({
         />
       </div>
 
-      {/* Gender */}
       <div>
         <label
           htmlFor="gender"
@@ -136,7 +135,6 @@ export default function PatientForm({
         </select>
       </div>
 
-      {/* Phone */}
       <div>
         <label
           htmlFor="phone"
@@ -156,7 +154,6 @@ export default function PatientForm({
         />
       </div>
 
-      {/* Email */}
       <div>
         <label
           htmlFor="email"
@@ -175,7 +172,6 @@ export default function PatientForm({
         />
       </div>
 
-      {/* Condition */}
       <div>
         <label
           htmlFor="condition"
@@ -195,7 +191,6 @@ export default function PatientForm({
         />
       </div>
 
-      {/* Actions */}
       <div className="flex justify-end gap-3">
         <button
           type="button"

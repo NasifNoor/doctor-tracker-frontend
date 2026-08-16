@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { api } from "../../../lib/api";
+import DashboardSkeleton from "@/components/ui/DashboardSkeleton";
 
 export default function DashboardPage() {
   const [stats, setStats] = useState(null);
@@ -24,11 +25,7 @@ export default function DashboardPage() {
   }, []);
 
   if (loading) {
-    return (
-      <main className="min-h-screen bg-gray-50 p-8">
-        <p className="text-gray-500">Loading dashboard...</p>
-      </main>
-    );
+    return <DashboardSkeleton />;
   }
 
   if (error) {
@@ -50,7 +47,6 @@ export default function DashboardPage() {
           </p>
         </div>
 
-        {/* Summary cards */}
         <div className="grid gap-6 sm:grid-cols-2">
           <div className="rounded-xl bg-white p-6 shadow-sm">
             <p className="text-sm font-medium text-gray-500">Total Doctors</p>
@@ -69,7 +65,6 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Patients per doctor */}
         <section className="mt-8 rounded-xl bg-white p-6 shadow-sm">
           <h2 className="text-lg font-semibold text-gray-900">
             Patients per Doctor
@@ -109,7 +104,6 @@ export default function DashboardPage() {
           </div>
         </section>
 
-        {/* Patients by date */}
         <section className="mt-8 rounded-xl bg-white p-6 shadow-sm">
           <h2 className="text-lg font-semibold text-gray-900">
             Patients by Date

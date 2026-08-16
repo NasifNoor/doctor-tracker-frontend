@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { api } from "../../../lib/api";
 import PatientForm from "../../../components/patients/PatientForm";
+import { Pencil, Trash2 } from "lucide-react";
+import TableSkeleton from "@/components/ui/TableSkeleton";
 
 export default function PatientsPage() {
   const [patients, setPatients] = useState([]);
@@ -11,6 +13,8 @@ export default function PatientsPage() {
   const [search, setSearch] = useState("");
   const [condition, setCondition] = useState("");
   const [doctorId, setDoctorId] = useState("");
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [editingPatient, setEditingPatient] = useState(null);
   const [formLoading, setFormLoading] = useState(false);
@@ -43,6 +47,8 @@ export default function PatientsPage() {
         search,
         condition,
         doctorId,
+        from,
+        to,
       });
 
       setPatients(data.patients);
@@ -60,7 +66,7 @@ export default function PatientsPage() {
 
   useEffect(() => {
     loadPatients();
-  }, [page, search, condition, doctorId]);
+  }, [page, search, condition, doctorId, from, to]);
 
   const handleSearchChange = (event) => {
     setSearch(event.target.value);
@@ -76,11 +82,22 @@ export default function PatientsPage() {
     setDoctorId(event.target.value);
     setPage(1);
   };
+  const handleFromChange = (event) => {
+    setFrom(event.target.value);
+    setPage(1);
+  };
+
+  const handleToChange = (event) => {
+    setTo(event.target.value);
+    setPage(1);
+  };
 
   const clearFilters = () => {
     setSearch("");
     setCondition("");
     setDoctorId("");
+    setFrom("");
+    setTo("");
     setPage(1);
   };
   const handleCreate = async (form) => {
@@ -148,17 +165,6 @@ export default function PatientsPage() {
 
             <p className="mt-1 text-gray-500">Manage and search patients.</p>
           </div>
-
-          <button
-            type="button"
-            onClick={() => {
-              setEditingPatient(null);
-              setShowForm(true);
-            }}
-            className="rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-blue-700"
-          >
-            Add Patient
-          </button>
         </div>
         {showForm && (
           <div className="mb-6 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
@@ -187,9 +193,8 @@ export default function PatientsPage() {
           </div>
         )}
 
-        {/* Filters */}
         <div className="mb-6 rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-          <div className="grid gap-4 md:grid-cols-4">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-6">
             <div>
               <label
                 htmlFor="search"
@@ -249,6 +254,39 @@ export default function PatientsPage() {
                 ))}
               </select>
             </div>
+            <div>
+              <label
+                htmlFor="from"
+                className="mb-2 block text-sm font-medium text-gray-700"
+              >
+                From
+              </label>
+
+              <input
+                id="from"
+                type="date"
+                value={from}
+                onChange={handleFromChange}
+                className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-gray-900 outline-none focus:border-blue-500"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="to"
+                className="mb-2 block text-sm font-medium text-gray-700"
+              >
+                To
+              </label>
+
+              <input
+                id="to"
+                type="date"
+                value={to}
+                onChange={handleToChange}
+                className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-gray-900 outline-none focus:border-blue-500"
+              />
+            </div>
 
             <div className="flex items-end">
               <button
@@ -262,19 +300,15 @@ export default function PatientsPage() {
           </div>
         </div>
 
-        {/* Error */}
         {error && (
           <div className="mb-6 rounded-lg bg-red-50 p-4 text-sm text-red-600">
             {error}
           </div>
         )}
 
-        {/* Table */}
         <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
           {loading ? (
-            <div className="p-10 text-center text-gray-500">
-              Loading patients...
-            </div>
+            <TableSkeleton />
           ) : patients.length === 0 ? (
             <div className="p-10 text-center text-gray-500">
               No patients found.
@@ -341,24 +375,32 @@ export default function PatientsPage() {
                       </td>
 
                       <td className="px-6 py-4 text-right">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setEditingPatient(patient);
-                            setShowForm(true);
-                          }}
-                          className="mr-3 text-sm font-medium text-blue-600 hover:text-blue-800"
-                        >
-                          Edit
-                        </button>
+                        <div className="flex justify-end gap-2">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setEditingPatient(patient);
+                              setShowForm(true);
+                            }}
+                            title="Edit doctor"
+                            aria-label={`Edit ${doctor.name}`}
+                            className="inline-flex items-center gap-1.5 rounded-md bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700 transition hover:bg-gray-200"
+                          >
+                            <Pencil className="h-3.5 w-3.5" />
+                            Edit
+                          </button>
 
-                        <button
-                          type="button"
-                          onClick={() => handleDelete(patient)}
-                          className="text-sm font-medium text-red-600 hover:text-red-800"
-                        >
-                          Delete
-                        </button>
+                          <button
+                            type="button"
+                            onClick={() => handleDelete(patient)}
+                            title="Delete doctor"
+                            aria-label={`Delete ${patient.name}`}
+                            className="inline-flex items-center gap-1.5 rounded-md bg-red-50 px-3 py-1.5 text-xs font-medium text-red-600 transition hover:bg-red-100"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                            Delete
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -367,7 +409,6 @@ export default function PatientsPage() {
             </div>
           )}
 
-          {/* Pagination */}
           {!loading && pagination && pagination.totalPages > 0 && (
             <div className="flex items-center justify-between border-t border-gray-200 px-6 py-4">
               <p className="text-sm text-gray-500">

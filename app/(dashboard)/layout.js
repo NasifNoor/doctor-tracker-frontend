@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 
 import { api } from "../../lib/api";
+import Authchecking from "@/components/ui/Authchecking";
 
 export default function DashboardLayout({ children }) {
   const router = useRouter();
@@ -36,11 +37,7 @@ export default function DashboardLayout({ children }) {
   };
 
   if (checkingAuth) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-50">
-        <p className="text-gray-500">Checking authentication...</p>
-      </div>
-    );
+    return <Authchecking />;
   }
 
   return (

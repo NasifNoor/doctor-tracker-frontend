@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { api } from "../../lib/api";
+import Authchecking from "@/components/ui/Authchecking";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -23,10 +24,8 @@ export default function LoginPage() {
       try {
         await api.getMe();
 
-        // Already logged in
         router.replace("/dashboard");
       } catch {
-        // Not logged in
         setCheckingAuth(false);
       }
     };
@@ -62,11 +61,7 @@ export default function LoginPage() {
   };
 
   if (checkingAuth) {
-    return (
-      <main className="flex min-h-screen items-center justify-center bg-gray-100">
-        <p className="text-gray-500">Checking authentication...</p>
-      </main>
-    );
+    return <Authchecking />;
   }
 
   return (
