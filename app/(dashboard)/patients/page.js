@@ -5,13 +5,16 @@ import { api } from "../../../lib/api";
 import PatientForm from "../../../components/patients/PatientForm";
 import { Pencil, Trash2 } from "lucide-react";
 import TableSkeleton from "@/components/ui/TableSkeleton";
+import useDebounce from "@/hooks/useDebounce";
 
 export default function PatientsPage() {
   const [patients, setPatients] = useState([]);
   const [doctors, setDoctors] = useState([]);
 
   const [search, setSearch] = useState("");
+  const debouncedSearch = useDebounce(search, 400);
   const [condition, setCondition] = useState("");
+  const debouncedcondition = useDebounce(condition, 400);
   const [doctorId, setDoctorId] = useState("");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
@@ -44,8 +47,8 @@ export default function PatientsPage() {
       const data = await api.getPatients({
         page,
         limit,
-        search,
-        condition,
+        search: debouncedSearch,
+        condition: debouncedcondition,
         doctorId,
         from,
         to,
@@ -66,7 +69,7 @@ export default function PatientsPage() {
 
   useEffect(() => {
     loadPatients();
-  }, [page, search, condition, doctorId, from, to]);
+  }, [page, debouncedSearch, debouncedcondition, doctorId, from, to]);
 
   const handleSearchChange = (event) => {
     setSearch(event.target.value);

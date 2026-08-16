@@ -6,6 +6,7 @@ import DoctorForm from "../../../components/doctors/DoctorForm";
 import { useRouter } from "next/navigation";
 import { Eye, Pencil, Trash2 } from "lucide-react";
 import TableSkeleton from "@/components/ui/TableSkeleton";
+import useDebounce from "@/hooks/useDebounce";
 
 export default function DoctorsPage() {
   const router = useRouter();
@@ -24,6 +25,8 @@ export default function DoctorsPage() {
     from: "",
     to: "",
   });
+  const debouncedSearch = useDebounce(filters.search, 400);
+  const debouncedSpecialization = useDebounce(filters.specialization, 400);
 
   const [pagination, setPagination] = useState(null);
 
@@ -32,7 +35,11 @@ export default function DoctorsPage() {
       setLoading(true);
       setError("");
 
-      const data = await api.getDoctors(filters);
+      const data = await api.getDoctors({
+        ...filters,
+        search: debouncedSearch,
+        specialization: debouncedSpecialization,
+      });
 
       setDoctors(data.doctors);
       setPagination(data.pagination);
@@ -51,7 +58,14 @@ export default function DoctorsPage() {
   };
   useEffect(() => {
     loadDoctors();
-  }, [filters]);
+  }, [
+    filters.page,
+    filters.limit,
+    debouncedSearch,
+    debouncedSpecialization,
+    filters.from,
+    filters.to,
+  ]);
 
   const handleCreate = async (form) => {
     try {
