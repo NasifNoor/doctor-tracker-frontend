@@ -436,11 +436,6 @@ Example:
 
 ```text
 components/
-├── layout/
-│   ├── AppShell.js
-│   ├── Sidebar.js
-│   └── Header.js
-│
 ├── doctors/
 │   ├── DoctorForm.js
 │   └── DoctorTable.js
